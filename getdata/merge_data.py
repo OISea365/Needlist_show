@@ -43,7 +43,7 @@ def merge_data(end_date: str):
     data_fix.index = data_fix[0]
     data_fix.drop(columns=[0], inplace=True)
     base_list = ['股票简称', '所属分层', '公司属性', '企业规模', '是否专精特新', '证监会行业门类', '证监会行业大类', 'wind一级行业',
-                 'wind二级行业', 'wind三级行业', 'wind四级行业', '省份', '挂牌日期']
+                 'wind二级行业', 'wind三级行业', 'wind四级行业', '省份', '挂牌日期', '城市']
     data_fix.columns = tuple([(base_list[i], 'fix') for i in range(len(base_list))])
     data_final = pd.concat([data_fix, data], axis=1, join='inner')
     print('attribute.xlsx is done.')
