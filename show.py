@@ -49,8 +49,7 @@ with col1:
 with col2:
     st.write(f'{step2}——{step3}——{option2}')
     df = show_table(data, step2, step3, option2)
-    df_formatted = df.applymap(lambda x: '{:.2f}'.format(x))
-    st.dataframe(df_formatted, use_container_width=True)
+    st.dataframe(df, use_container_width=True)
 
 st.markdown("---")
 col3, col4 = st.columns([5, 5])
