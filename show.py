@@ -36,7 +36,7 @@ with st.sidebar:
     elif step1 == '债务和偿债情况':
         step2 = st.radio('Step2：选择指标', ('总体资产负债率', '债务成本'), index=0)
     elif step1 == '投资和融资情况':
-        step2 = st.radio('Step2：选择指标', ('购建付现', '筹资现金流入'), index=0)
+        step2 = st.radio('Step2：选择指标', ('购建付现', '筹资现金流入', '现金占资产比重'), index=0)
     elif step1 == '其他':
         step2 = st.radio('Step2：选择指标', ('研发强度', '支付的各项税费和收入比'), index=0)
     step3 = st.radio('Step3：选择一级分类', list(data['营业总收入'].keys()))
@@ -45,19 +45,23 @@ col1, col2 = st.columns([3, 7])
 with col1:
     option1 = st.selectbox('请选择细分类', data['营业总收入'][step3]['data']['category'].unique().tolist())
     option2 = st.selectbox('请选择季度', period_list)
-    check = st.checkbox('显示所有季度')
+
 with col2:
     st.write(f'{step2}——{step3}——{option2}')
     df = show_table(data, step2, step3, option2)
     st.dataframe(df, use_container_width=True)
 
 st.markdown("---")
-if check:
-    fig1 = draw_fig_t(data, step2, step3, option1, option2, all_qua=True)
-else:
-    fig1 = draw_fig_t(data, step2, step3, option1, option2)
-st.plotly_chart(fig1)
-
-st.markdown("---")
-fig2 = draw_fig_c(data, step2, step3, end_qua=option2)
-st.plotly_chart(fig2)
+col3, col4 = st.columns([5, 5])
+with col3:
+    st.markdown(f'#### {step2}历史走势图（上图为统计值，下图为变化量）')
+    check = st.checkbox('显示所有季度')
+    if check:
+        fig1 = draw_fig_t(data, step2, step3, option1, option2, all_qua=True)
+    else:
+        fig1 = draw_fig_t(data, step2, step3, option1, option2)
+    st.plotly_chart(fig1)
+with col4:
+    st.markdown(f'#### {step3}各部分对比图')
+    fig2 = draw_fig_c(data, step2, step3, end_qua=option2)
+    st.plotly_chart(fig2)
